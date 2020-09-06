@@ -51,19 +51,17 @@ void *unlock() {
 	return 0;
 }
 
-int main()
-{
+int main() {
 	state_func curr_state = idle_locked;
 
-	while(1){
+	while(1) {
 		curr_state = (state_func)(*curr_state)();
-		//fprintf(stderr, "door 1: %d, door 2: %d, idle_inside: %d, idle_between: %d, idle_outside: %d \n", door1_open, door2_open, s_inside, s_between, s_outside);
-		if (kbhit()){
+		printf("locked: %d, unlocked: %d, locking: %d, unlocking: %d, speed: %d \n", locked, unlocked, lock_act, unlock_act, vel);
+		if (kbhit()) {
 			c = getchar();
 			printf("%c", c);
 		}
 		sleep(1);
 	}
-
 	return 0;
 }
