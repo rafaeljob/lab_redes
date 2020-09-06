@@ -12,6 +12,23 @@ button = 1, botao externo porta 1
 button = 2, botao interno porta 1
 button = 3, botao externo porta 2
 button = 4, botao interno porta 2
+
+regras:
+=pessoa entrando:
+	porta 1 abre quando botao externo porta 1 esta precionado
+	porta 1 fica aberta por 10s
+	porta 1 fechada
+	porta 2 abre quando botao interno porta 2 esta precionado e porta 1 fechada
+	porta 2 fica aberta por 10s
+	porta 2 fechada
+
+=pessoa saindo:
+	porta 2 abre quando botao externo porta 2 esta precionado
+	porta 2 fica aberta por 10s
+	porta 2 fechada
+	porta 1 abre quando botao interno porta 1 esta precionado e porta 2 fechada
+	porta 1 fica aberta por 10s
+	porta 1 fechada
 */
 
 int kbhit(void);
