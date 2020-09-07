@@ -38,6 +38,9 @@ void *idle_inside();
 void *door_1_open();
 void *door_2_open();
 
+/* 
+	Processo idle pessoa fora do estabelecimento
+*/
 void *idle_outside()
 {
 	fprintf(stderr, "IDLE OUTSIDE ");
@@ -49,7 +52,9 @@ void *idle_outside()
 	if (button == 1)						return door_1_open;
 	return 0;
 }
-
+/* 
+	Processo idle pessoa entre as portas
+*/
 void *idle_between()
 {
 	fprintf(stderr, "IDLE BETWEEN ");
@@ -62,7 +67,9 @@ void *idle_between()
 	if (button == 3 && door1_open == 0)		return door_2_open;
 	return 0;
 }
-
+/* 
+	Processo idle pessoa dentro do estabelecimento
+*/
 void *idle_inside()
 {
 	fprintf(stderr, "IDLE INSIDE ");
@@ -74,7 +81,9 @@ void *idle_inside()
 	if (button == 4)						return door_2_open;
 	return 0;
 }
-
+/* 
+	Processo para abrir a porta 1, ela ficara aberta por 10s
+*/
 void *door_1_open()
 {
 	fprintf(stderr, "DOOR 1 OPEN ");
@@ -85,8 +94,11 @@ void *door_1_open()
 	if (timer < 10) 							return door_1_open;
 	if ((!(timer < 10)) && s_outside == 1)		return idle_between;
 	if ((!(timer < 10)) && s_between == 1)		return idle_outside;
+	return 0;
 }
-
+/* 
+	Processo para abrir a porta 2, ela ficara aberta por 10s
+*/
 void *door_2_open()
 {
 	fprintf(stderr, "DOOR 2 OPEN ");
@@ -97,6 +109,7 @@ void *door_2_open()
 	if (timer < 10) 							return door_2_open;
 	if ((!(timer < 10)) && s_inside == 1)		return idle_between;
 	if ((!(timer < 10)) && s_between == 1)		return idle_inside;
+	return 0;
 }
 
 int main()
@@ -109,7 +122,11 @@ int main()
 		sleep(1);
 		if (kbhit() && !door1_open && !door2_open){
 			c = getchar();
-			if (c <= '4') {
+			if (c < '2' && s_outside == 1) {
+				button = c - 48;
+			} else if ((c > '1' && c < '4') && s_between == 1) {
+				button = c - 48;
+			} else if (c == '4' && s_inside == 1) {
 				button = c - 48;
 			}
 		}
